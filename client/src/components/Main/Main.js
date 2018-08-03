@@ -6,21 +6,21 @@ import Results from "../Results";
 import ResultsList from "../ResultsList"
 import API from "../../Utils/API"
 import Header from "../Header";
-import axios from "axios";
 
 
 class Main extends Component {
     constructor(props) {
         super(props);
 
-    this.state = {
-        topic: "",
-        startYear: "",
-        endYear: "",
-        articles: [],
-        saved: []
-    };
-}
+        this.state = {
+            topic: "",
+            startYear: "",
+            endYear: "",
+            articles: [],
+            saved: []
+        };
+    }
+
     componentDidMount() {
         this.getSaved()
     }
@@ -80,25 +80,14 @@ class Main extends Component {
         .then(this.getSaved);
 
     }
-    
-    renderSaved = () => {
-        return this.state.saved.map(saved => 
-            (<SavedList
-                    _id={saved._id}
-                    key={saved._id}
-                    title={saved.title}
-                    date={saved.date}
-                    url={saved.url}
-                    snippet={saved.snippet}
-                    handleDeleteButton={this.handleDeleteButton}
-                 />
-            ))
-        }
 
     
     
 
 render (){
+
+    debugger;
+
     return(
         <div>
         <Header/>
@@ -125,7 +114,18 @@ render (){
         })}
         </Results>
         <Saved>
-            {this.renderSaved()}
+            {this.state.saved.map(saved => {
+                return (<SavedList
+                        _id={saved._id}
+                        key={saved._id}
+                        title={saved.title}
+                        date={saved.date}
+                        url={saved.url}
+                        snippet={saved.snippet}
+                        handleDeleteButton={this.handleDeleteButton}
+                    />
+                )
+            })}
         </Saved>
     </div>
     )
