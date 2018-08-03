@@ -1,6 +1,9 @@
 {
   "name": "nyreact",
   "version": "0.1.0",
+  "engines": {
+    "node": "10.7.0"
+  },
   "private": true,
   "proxy": "http://localhost:3001",
   "dependencies": {
