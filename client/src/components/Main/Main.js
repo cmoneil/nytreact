@@ -86,8 +86,6 @@ class Main extends Component {
 
 render (){
 
-    debugger;
-
     return(
         <div>
         <Header/>
