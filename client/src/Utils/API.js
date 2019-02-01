@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 const API = {
   // Retrieves saved articles from the db
   getArticle: function() {
@@ -15,8 +16,8 @@ const API = {
   },
   //Query NYT API
   getNYT: function (topic, startYear, endYear) {
-    const BASEURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
-    const APIKEY = "?api-key=3ca76254e4ee4cf1a6de8453e9d9a577";
+    const BASEURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=";
+    const APIKEY = 'KwEgW6XFF7rFgnYKqwInQNx2i0jgDiIB';
     return axios.get(`${BASEURL}${APIKEY}&${topic}&begin_date=${startYear}0101&end_date=${endYear}0101`);
   }
 };

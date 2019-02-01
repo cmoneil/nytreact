@@ -6,6 +6,7 @@ import Results from "../Results";
 import ResultsList from "../ResultsList"
 import API from "../../Utils/API"
 import Header from "../Header";
+// import axios from "axios";
 
 
 class Main extends Component {
@@ -21,99 +22,103 @@ class Main extends Component {
         };
     }
 
+    //Loads saved list
     componentDidMount() {
         this.getSaved()
     }
 
-    handleTopicChange = ( event ) =>{
-        console.log(event.target.value)
-        this.setState({topic: event.target.value})
+    //Handles topic
+    handleTopicChange = (event) => {
+        this.setState({ topic: event.target.value })
     }
-    handleFormSubmit = ( event ) => {
+    handleFormSubmit = (event) => {
         event.preventDefault();
-        console.log("click")
     }
 
-    handleStartChange = ( event ) =>{
-        console.log(event.target.value)
-        this.setState({startYear: event.target.value})
+    //Handles starting year
+    handleStartChange = (event) => {
+        this.setState({ startYear: event.target.value })
     }
 
-    handleEndChange = ( event ) =>{
-        console.log(event.target.value)
-        this.setState({endYear: event.target.value})
+    //Handles ending year
+    handleEndChange = (event) => {
+        this.setState({ endYear: event.target.value })
     }
-    handleSubmit = ( event ) => {
+
+    //Handles form submit
+    handleSubmit = (event) => {
         event.preventDefault();
-        API.getNYT(this.state.topic, this.state.startYear, this.state.endYear)
-        .then((res) => {
-        this.setState({ articles: res.data.response.docs });
-        console.log(this.state.articles)
-        }
-    )
-      .catch(err => console.log(err));
-       
-        
-        console.log("click")
+        // axios.post("/api/search/form-data", {
+        //     topic: this.state.topic,
+        //     startYear: this.state.startYear,
+        //     endYear: this.state.endYear
+        // })
+            API.getNYT(this.state.topic, this.state.startYear, this.state.endYear)
+            .then((response) => {
+                this.setState({ articles: response.data.response.docs });
+            }
+            )
+            .catch(err => console.log(err));
     }
 
-    handleSaveButton = ( id ) => {
-        const article = this.state.articles.find(article => article._id === id)
-        console.log("article: ", article)
-        API.saveArticle(article)
+
+//Handles article saved click
+handleSaveButton = (id) => {
+    const article = this.state.articles.find(article => article._id === id)
+    API.saveArticle(article)
         .then(this.getSaved)
-    }
+}
 
-    getSaved = () => {
-        API.getArticle()
-        .then((res)=> {
-        console.log(res.data)
-        this.setState({saved: res.data})
+//Gets saved articles from database
+getSaved = () => {
+    API.getArticle()
+        .then((res) => {
+            this.setState({ saved: res.data })
         })
         .catch(err => console.log(err))
 
-    }
+}
 
-    handleDeleteButton = ( id ) => {
-        console.log("delete: ", id )
-        API.deleteArticle(id)
+//Handles deleting articles from saved list
+handleDeleteButton = (id) => {
+    API.deleteArticle(id)
         .then(this.getSaved);
 
-    }
+}
 
-    
-    
 
-render (){
 
-    return(
-        <div>
-        <Header/>
-        <SearchForm
-            handleSubmit={this.handleSubmit}
-            handleTopicChange={this.handleTopicChange}
-            handleStartChange={this.handleStartChange}
-            handleEndChange={this.handleEndChange}
+
+render(){
+
+    return (
+        <div style={{ backgroundColor: "#a7abb0" }}>
+            <Header />
+            <SearchForm
+                handleSubmit={this.handleSubmit}
+                handleTopicChange={this.handleTopicChange}
+                handleStartChange={this.handleStartChange}
+                handleEndChange={this.handleEndChange}
             />
-        <Results>
-        {this.state.articles.map(article => {
-            return (
-                <ResultsList
-                    _id={article._id}
-                    key={article._id}
-                    title={article.headline.main}
-                    date={article.pub_date}
-                    url={article.web_url}
-                    snippet={article.snippet}
-                    handleSaveButton={this.handleSaveButton}
-                    getSaved={this.getSaved}
-                />
-            )
-        })}
-        </Results>
-        <Saved>
-            {this.state.saved.map(saved => {
-                return (<SavedList
+            <Results>
+                {this.state.articles.map(article => {
+                    return (
+                        <ResultsList
+                            _id={article._id}
+                            key={article._id}
+                            title={article.headline.main}
+                            date={article.pub_date}
+                            url={article.web_url}
+                            snippet={article.snippet}
+                            handleSaveButton={this.handleSaveButton}
+                            getSaved={this.getSaved}
+                        />
+                    )
+                })}
+            </Results>
+            <Saved>
+                {this.state.saved.map(saved => {
+                    return (<SavedList
                         _id={saved._id}
                         key={saved._id}
                         title={saved.title}
@@ -122,11 +127,11 @@ render (){
                         snippet={saved.snippet}
                         handleDeleteButton={this.handleDeleteButton}
                     />
-                )
-            })}
-        </Saved>
-    </div>
+                    )
+                })}
+            </Saved>
+        </div>
     )
 }
-} 
+}
 export default Main;

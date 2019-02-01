@@ -4,7 +4,7 @@ const Results = props => (
   
   <div className="container">
   <h2>Results</h2>
-  <li className="list-group-item">
+  <li className="list-group-item" style={{marginBottom: 30}}>
    {props.children}
    </li>
 </div>

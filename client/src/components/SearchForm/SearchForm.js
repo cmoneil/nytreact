@@ -7,8 +7,8 @@ const SearchForm = props => (
         <div className="col-lg-12">
         <form onSubmit={props.handleSubmit}>
           <div className="form-group">
-            <label htmlFor="search">Search:</label>
-            <input
+            <label htmlFor="search"><h2>Search:</h2></label>
+            <input style={{marginBottom: 5}}
               onChange={props.handleTopicChange}
               value={props.topic}
               name="topic"
@@ -17,7 +17,7 @@ const SearchForm = props => (
               placeholder="Search For an Article"
               id="search"
             />
-            <input
+            <input style={{marginBottom: 5}}
               onChange={props.handleStartChange}
               value={props.startYear}
               name="startYear"
