@@ -1,7 +1,7 @@
 import React from "react"
 
 const ResultsList = props => (
-<ul className="list-group-item" style={{marginBottom: 5}}>
+<ul className="list-group-item" style={{marginBottom: 5, width: "100%"}}>
     <h4>{props.title}</h4>
     <p>{props.snippet}</p>
         <a href={props.url} target="_blank">
